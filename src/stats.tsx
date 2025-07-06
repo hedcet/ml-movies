@@ -1,10 +1,12 @@
-import { Devvit } from "@devvit/public-api";
-import { chunk, round } from "lodash";
+import { Devvit, useState } from "@devvit/public-api";
+import { round } from "lodash";
 
-import { IProps } from "./interface.ts";
+import { IProps, IRatingData } from "./interface.ts";
 import { Routes } from "./config.ts";
 
 export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+
   function getRatingsSummary(ratings: { [k: string]: number }) {
     const values: number[] = Object.values(ratings);
     const count = values.reduce((m, i) => m + i, 0);
@@ -22,45 +24,121 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
   }
 
   function getRatingsChart(ratings: { [k: string]: number }) {
-    const values: number[] = Object.values(ratings);
-    const count = values.reduce((m, i) => m + i, 0);
-    const chunks = chunk(values, 2).map((i) => i.reduce((m, i) => m + i, 0));
-    return (
-      <vstack alignment="middle center">
-        {chunks.reverse().map((i, index) => (
-          <vstack width="192px">
-            {index ? <spacer size="small" /> : ""}
-            <hstack alignment="bottom center" gap="small">
-              {0 < i ? (
-                <text
-                  maxWidth={`${96 + index * 16}%`}
-                  overflow="ellipsis"
-                  size="xsmall"
-                  weight="bold"
-                >
-                  {props.enIn(i)} ~ {count ? round((i / count) * 100, 1) : 0}%
-                </text>
-              ) : (
-                ""
-              )}
-              <spacer grow />
-              <text size="xsmall">
-                {[...Array(chunks.length - index)].map(() => "🌕")}
-              </text>
-            </hstack>
-            <spacer size="xsmall" />
-            <vstack backgroundColor="secondary-background" cornerRadius="full">
-              <hstack
-                backgroundColor="primary-background"
-                width={`${count ? round((i / count) * 100, 1) : 0}%`}
-              >
-                <spacer size="xsmall" shape="square" />
-              </hstack>
-            </vstack>
+    try {
+      // Convert half-star ratings to 1-5 star ratings with proper typing
+      const starRatings: IRatingData[] = [
+        { stars: 1, count: (ratings.half || 0) + (ratings.one || 0), percentage: 0 },
+        { stars: 2, count: (ratings.one_half || 0) + (ratings.two || 0), percentage: 0 },
+        { stars: 3, count: (ratings.two_half || 0) + (ratings.three || 0), percentage: 0 },
+        { stars: 4, count: (ratings.three_half || 0) + (ratings.four || 0), percentage: 0 },
+        { stars: 5, count: (ratings.four_half || 0) + (ratings.five || 0), percentage: 0 }
+      ];
+
+      const totalCount = starRatings.reduce((sum, rating) => sum + rating.count, 0);
+      
+      // Calculate percentages
+      starRatings.forEach(rating => {
+        rating.percentage = totalCount > 0 ? round((rating.count / totalCount) * 100, 1) : 0;
+      });
+      
+      if (totalCount === 0) {
+        return (
+          <vstack alignment="middle center" padding="medium">
+            <text size="small" color="neutral-content-weak">
+              No ratings yet
+            </text>
           </vstack>
-        ))}
-      </vstack>
-    );
+        );
+      }
+
+      return (
+        <vstack alignment="middle center" gap="medium" width="100%">
+          <text size="medium" weight="bold">Rating Distribution</text>
+          
+          {starRatings.reverse().map((rating) => {
+            const isSelected = selectedRating === rating.stars;
+            
+            return (
+              <vstack width="300px" key={`rating-${rating.stars}`}>
+                <hstack alignment="middle center" gap="small" width="100%">
+                  <button
+                    appearance={isSelected ? "primary" : "secondary"}
+                    size="small"
+                    onPress={() => {
+                      setSelectedRating(isSelected ? null : rating.stars);
+                    }}
+                  >
+                    {rating.stars}★
+                  </button>
+                  
+                  <text 
+                    size="small" 
+                    weight="regular"
+                    color={isSelected ? "primary" : "neutral-content"}
+                  >
+                    {"★".repeat(rating.stars)}{"☆".repeat(5 - rating.stars)}
+                  </text>
+                  
+                  <spacer grow />
+                  
+                  <text 
+                    size="small" 
+                    weight="bold"
+                    color={isSelected ? "primary" : "neutral-content"}
+                  >
+                    {props.enIn(rating.count)} ({rating.percentage}%)
+                  </text>
+                </hstack>
+                
+                <spacer size="small" />
+                
+                <vstack 
+                  backgroundColor={isSelected ? "primary-background-weak" : "secondary-background"} 
+                  cornerRadius="full" 
+                  border={isSelected ? "thick" : "none"}
+                  borderColor={isSelected ? "primary" : undefined}
+                  width="100%"
+                >
+                  <hstack
+                    backgroundColor={isSelected ? "primary" : "primary-background"}
+                    width={`${Math.max(rating.percentage, 2)}%`}
+                    cornerRadius="full"
+                  >
+                    <spacer size="small" shape="square" />
+                  </hstack>
+                </vstack>
+                
+                <spacer size="medium" />
+              </vstack>
+            );
+          })}
+          
+          {selectedRating && (
+            <vstack alignment="middle center" padding="small" backgroundColor="primary-background-weak" cornerRadius="medium">
+              <text size="small" weight="bold" color="primary">
+                Showing {selectedRating}-star ratings
+              </text>
+              <button 
+                size="small" 
+                appearance="plain"
+                onPress={() => setSelectedRating(null)}
+              >
+                Clear selection
+              </button>
+            </vstack>
+          )}
+        </vstack>
+      );
+    } catch (error) {
+      // Error handling for edge cases
+      return (
+        <vstack alignment="middle center" padding="medium">
+          <text size="small" color="neutral-content-weak">
+            Unable to load rating data
+          </text>
+        </vstack>
+      );
+    }
   }
 
   return (

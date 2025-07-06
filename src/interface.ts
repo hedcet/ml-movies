@@ -15,6 +15,14 @@ export interface IMovie {
   four?: number;
   four_half?: number;
   five?: number;
+  _rating?: number;
+  _ratings?: { [k: string]: number };
+}
+
+export interface IRatingData {
+  stars: number;
+  count: number;
+  percentage: number;
 }
 
 export interface IProps {

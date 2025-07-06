@@ -28,7 +28,25 @@ Devvit.addMenuItem({
       `${post.id}|configs`,
       JSON.stringify({
         mods: [ctx.userId],
-        movies: [{ id: "id", title: "title" }],
+        movies: [
+          { 
+            id: "sample_movie", 
+            title: "Sample Movie",
+            original_title: "Sample Movie",
+            secondary_key: "Year",
+            secondary_value: "2024",
+            half: 2,
+            one: 3,
+            one_half: 5,
+            two: 8,
+            two_half: 12,
+            three: 15,
+            three_half: 20,
+            four: 25,
+            four_half: 18,
+            five: 32
+          }
+        ],
       })
     );
     ctx.ui.navigateTo(post);
@@ -86,7 +104,14 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   const [configs, setConfigs] = useState(async () => await getConfigs());
   const [page, setPage] = useState(Routes.Rating);
   const [movies, setMovies] = useState(async () => await getMovies());
-  const [movie, setMovie] = useState(movies[0] || { id: "id", title: "title" });
+  const [movie, setMovie] = useState(movies[0] || { 
+    id: "sample", 
+    title: "Sample Movie",
+    half: 1, one: 2, one_half: 3, two: 5, two_half: 8, 
+    three: 12, three_half: 15, four: 20, four_half: 18, five: 25,
+    _ratings: { half: 1, one: 2, one_half: 3, two: 5, two_half: 8, 
+               three: 12, three_half: 15, four: 20, four_half: 18, five: 25 }
+  });
   const [movieIndex, setMovieIndex] = useState(0);
   const [action, setAction] = useState(Actions.Dummy);
 
