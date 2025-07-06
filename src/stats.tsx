@@ -25,6 +25,17 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
 
   function getRatingsChart(ratings: { [k: string]: number }) {
     try {
+      // Validate input
+      if (!ratings || typeof ratings !== 'object') {
+        return (
+          <vstack alignment="middle center" padding="medium">
+            <text size="small" color="neutral-content-weak">
+              No rating data available
+            </text>
+          </vstack>
+        );
+      }
+
       // Convert half-star ratings to 1-5 star ratings with proper typing
       const starRatings: IRatingData[] = [
         { stars: 1, count: (ratings.half || 0) + (ratings.one || 0), percentage: 0 },
@@ -47,6 +58,10 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
             <text size="small" color="neutral-content-weak">
               No ratings yet
             </text>
+            <spacer size="small" />
+            <text size="xsmall" color="neutral-content-weak">
+              Be the first to rate this movie!
+            </text>
           </vstack>
         );
       }
@@ -57,6 +72,7 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
           
           {starRatings.reverse().map((rating) => {
             const isSelected = selectedRating === rating.stars;
+            const barWidth = Math.max(rating.percentage, 2); // Minimum 2% for visibility
             
             return (
               <vstack width="300px" key={`rating-${rating.stars}`}>
@@ -101,7 +117,7 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
                 >
                   <hstack
                     backgroundColor={isSelected ? "primary" : "primary-background"}
-                    width={`${Math.max(rating.percentage, 2)}%`}
+                    width={`${barWidth}%`}
                     cornerRadius="full"
                   >
                     <spacer size="small" shape="square" />
@@ -131,10 +147,15 @@ export const StatsPage: Devvit.BlockComponent<IProps> = (props) => {
       );
     } catch (error) {
       // Error handling for edge cases
+      console.error('Error rendering rating chart:', error);
       return (
         <vstack alignment="middle center" padding="medium">
           <text size="small" color="neutral-content-weak">
             Unable to load rating data
+          </text>
+          <spacer size="small" />
+          <text size="xsmall" color="neutral-content-weak">
+            Please try again later
           </text>
         </vstack>
       );
