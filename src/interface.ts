@@ -1,3 +1,9 @@
+export interface IConfigs {
+  mods: string[];
+  movies: IMovie[];
+  refs?: { [k: string]: string };
+}
+
 export interface IMovie {
   id: string;
   image_uri?: string;
@@ -15,28 +21,4 @@ export interface IMovie {
   four?: number;
   four_half?: number;
   five?: number;
-}
-
-export interface IProps {
-  page: number;
-  setPage: (page: number) => void;
-  movies: any[];
-  movie: any;
-  setMovie: (movie: any) => void;
-  movieIndex: number;
-  setMovieIndex: (movieIndex: number) => void;
-  mod: boolean;
-  pagination: number;
-  setAction: (action: any) => void;
-  // actionLoading: boolean;
-  showToast: (text: string) => void;
-  enIn: (v: number, locale?: string, opts?: any) => string;
-  customize: () => void;
-  download: () => void;
-}
-
-export interface IConfigs {
-  mods: string[];
-  movies: IMovie[];
-  refs?: { [k: string]: string };
 }

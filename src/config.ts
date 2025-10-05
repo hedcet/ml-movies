@@ -1,10 +1,4 @@
 export enum Actions {
-  Dummy,
-  Submit,
-  Reset,
-}
-
-export enum Routes {
+  Done,
   Rating,
-  Stats,
 }
