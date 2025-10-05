@@ -95,11 +95,14 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   async function getMovies(movies: IMovie[], refs: any = {}) {
     return (await Promise.all(
       movies.map(async (i) => {
-        const movie: any = structuredClone(i);
+        const prefix = getPrefix(i.id);
+        const movie: any = {
+          ...i,
+          _rating: await getRating(prefix),
+          _ratings: await getRatings(prefix, i),
+        };
         if (movie.image_uri && refs[movie.image_uri])
           movie._image_uri = refs[movie.image_uri];
-        movie._rating = await getRating(getPrefix(movie.id));
-        movie._ratings = await getRatings(getPrefix(movie.id), movie);
         return movie;
       })
     )) as any;
@@ -292,8 +295,8 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   }
 
   return (
-    <vstack alignment="middle center" gap="medium" grow padding="medium">
-      <hstack alignment="middle center" grow>
+    <vstack alignment="middle center" gap="large" grow padding="medium">
+      <hstack alignment="middle center">
         {movies.map((movie: any, index: number) => (
           <vstack
             gap="medium"
@@ -348,8 +351,6 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
           </vstack>
         ))}
       </hstack>
-
-      <spacer grow />
 
       <hstack
         alignment="middle center"
