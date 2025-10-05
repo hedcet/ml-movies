@@ -1,6 +1,6 @@
 ### movie rating app for reddit
 
-this app will help you to config one/multiple highlight/normal post template with movie rating feature like letterboxd
+this app will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd
 
 [demo](https://www.reddit.com/r/kerala_boxoffice/comments/1j6zuyz) | [source-code](https://github.com/hedcet/ml-movies)
 
@@ -8,28 +8,28 @@ this app will help you to config one/multiple highlight/normal post template wit
 
 - preload movie rating from letterboxd/anywhere
 - full control over metadata/image
-- reddit internal redis as store
-- aggregated stats & full export option
+- internal redis as store
+- aggregated stats & export options
 
 ### how to install
 
-you can install it any reddit community if you are moderator, this app will add one menu like this
+you can install it any reddit community if you are moderator, this will add one menu like this
 
-![menu](https://github.com/hedcet/ml-movies/blob/main/assets/menu.png?raw=true)
+![menu](https://github.com/hedcet/ml-movies/blob/main/assets/menu.jpg?raw=true)
 
-moderator can add one post with movie rating template like this by using that menu
+moderator can add one post/multiple movie rating template like this
 
-![movie-rating-template-post](https://github.com/hedcet/ml-movies/blob/main/assets/movie-rating-template-post.png?raw=true)
+![movie-rating-template-post](https://github.com/hedcet/ml-movies/blob/main/assets/movie-rating-template-post.jpg?raw=true)
 
-you can configure following by using top-left customize button
+& configure following by using customize button
 
-- moderator for this post
-- movie list with image & metadata, also preload rating from letterboxd
-- reddit image url mapping
+- mods for this post
+- movies with image & metadata, also preload rating from letterboxd/anywhere
+- reddit internal image url mapping
 
-this app will automatically ingest external `image_uri` & keep that in `refs` mapping when you submit
+this app will auto ingest external `image_uri` & keep that in `refs` mapping
 
-![customize](https://github.com/hedcet/ml-movies/blob/main/assets/customize.png?raw=true)
+![customize](https://github.com/hedcet/ml-movies/blob/main/assets/customize.jpg?raw=true)
 
 you can modify it like this
 
@@ -63,9 +63,7 @@ you can modify it like this
 }
 ```
 
-your userId be there in `mods` array if you creating the post & you can add multiple userId to make them as moderator to this post
-
-`movies` array accept multiple movie object in which `id` & `title` are mandatory which is useful - one post weekly
+`movies` array accept multiple movie object in which `id` & `title` are mandatory
 
 | prop            | description                             |
 | --------------- | --------------------------------------- |
@@ -78,20 +76,16 @@ your userId be there in `mods` array if you creating the post & you can add mult
 
 preload movie rating from letterbox by using `half` to `five` props like r/kerala_boxoffice [config](https://github.com/hedcet/boxoffice-server/blob/main/ml-movies.json)
 
-this app using [ajv](https://www.npmjs.com/package/ajv) to validate JSON data that you submit
+this app using [ajv](https://www.npmjs.com/package/ajv) to validate JSON data
 
-everybody can see the rating-statistics per movie & aggregated out of 5 using the statistics button
-
-![stats](https://github.com/hedcet/ml-movies/blob/main/assets/stats.png?raw=true)
-
-download button allow post moderator to download metadata & combined rating (preload + redis) in csv format
+download button allow moderator to download metadata & combined rating (preload + redis) in \*.csv format
 
 ### changelog
 
-- 0.0.329
-  - remove memory-cache & preload all for performance
-- 0.0.319
-  - add memory-cache & preload n+1 for performance
+- 0.0.337
+  - performance optimization
+- 0.0.319/329
+  - add memory-cache & preload n+1/all for performance
 - 0.0.317
   - remove useAsync chain with sync functions for performance
 - 0.0.294
