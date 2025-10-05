@@ -128,7 +128,9 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         <text size="xlarge" weight="bold">
           {round(
             count
-              ? v.reduce((m, item, i) => m + item * (i + 1), 0) / count / 2
+              ? v.reduce((m, i, index) => m + i * (v.length - index), 0) /
+                  count /
+                  2
               : 0,
             1
           )}
