@@ -13,21 +13,15 @@ this app will help you to post/config one/multiple highlight/normal template wit
 
 ### how to install
 
-you can install it any reddit community if you are moderator, this will add one menu like this
+you can install it in any reddit community if you are moderator, this will add one menu option
 
 ![menu](https://github.com/hedcet/ml-movies/blob/main/assets/menu.jpg?raw=true)
 
-moderator can add one post/multiple movie rating template like this
+you can add one post/multiple template with movie rating feature & configure following by using customize button
 
-![movie-rating-template-post](https://github.com/hedcet/ml-movies/blob/main/assets/movie-rating-template-post.jpg?raw=true)
-
-& configure following by using customize button
-
-- mods for this post
+- moderators for this post
 - movies with image & metadata, also preload rating from letterboxd/anywhere
-- reddit internal image url mapping
-
-this app will auto ingest external `image_uri` & keep that in `refs` mapping
+- already ingested reddit internal image_uri mapping
 
 ![customize](https://github.com/hedcet/ml-movies/blob/main/assets/customize.jpg?raw=true)
 
@@ -74,22 +68,18 @@ you can modify it like this
 | secondary_key   | extra metadata key like release-date    |
 | secondary_value | extra metadata value                    |
 
-preload movie rating from letterbox by using `half` to `five` props like r/kerala_boxoffice [config](https://github.com/hedcet/boxoffice-server/blob/main/ml-movies.json)
+preload movie rating from letterbox by using `half` to `five` props, refer r/kerala_boxoffice [config](https://github.com/hedcet/boxoffice-server/blob/main/ml-movies.json)
 
-this app using [ajv](https://www.npmjs.com/package/ajv) to validate JSON data
-
-download button allow moderator to download metadata & combined rating (preload + redis) in \*.csv format
+download button allow you to download metadata & combined rating (preload + redis) in \*.csv format
 
 ### changelog
 
-- 0.0.341
-  - performance optimization
+- 0.0.346
+  - UI optimization
 - 0.0.319/329
-  - add memory-cache & preload n+1/all for performance
+  - add preload n+1/all for performance
 - 0.0.317
-  - remove useAsync chain with sync functions for performance
-- 0.0.294
-  - disable forward pagination only if one movie
+  - remove useAsync with functions for performance
 - 0.0.292
   - first preview
 

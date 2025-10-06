@@ -1,0 +1,9 @@
+{
+  "blocks": {
+    "entry": "src/main.tsx"
+  },
+  "media": {
+    "dir": "assets/"
+  },
+  "name": "ml-movies"
+}
