@@ -17,7 +17,7 @@ you can install it in any reddit community if you are moderator, this will add o
 
 ![menu](https://github.com/hedcet/ml-movies/blob/main/assets/menu.jpg?raw=true)
 
-you can add one post/multiple template with movie rating feature & configure following by using customize button
+you can configure following by using customize button
 
 - moderators for this post
 - movies with image & metadata, also preload rating from letterboxd/anywhere
@@ -72,7 +72,7 @@ download button allow you to download metadata & combined rating (preload + redi
 
 ### changelog
 
-- 0.0.347
+- 0.0.348
   - ux optimization
 - 0.0.319/329
   - add preload n+1/all for performance
