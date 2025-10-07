@@ -25,7 +25,7 @@ you can add one post/multiple template with movie rating feature & configure fol
 
 ![customize](https://github.com/hedcet/ml-movies/blob/main/assets/customize.jpg?raw=true)
 
-you can modify it like this
+you can modify it like [this](https://github.com/hedcet/boxoffice-server/blob/main/ml-movies.json)
 
 ```
 {
@@ -68,14 +68,12 @@ you can modify it like this
 | secondary_key   | extra metadata key like release-date    |
 | secondary_value | extra metadata value                    |
 
-preload movie rating from letterbox by using `half` to `five` props, refer r/kerala_boxoffice [config](https://github.com/hedcet/boxoffice-server/blob/main/ml-movies.json)
-
 download button allow you to download metadata & combined rating (preload + redis) in \*.csv format
 
 ### changelog
 
-- 0.0.346
-  - UI optimization
+- 0.0.347
+  - ux optimization
 - 0.0.319/329
   - add preload n+1/all for performance
 - 0.0.317
