@@ -1,6 +1,6 @@
 ### movie rating app for reddit
 
-this app will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd
+this will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd
 
 [demo](https://www.reddit.com/r/kerala_boxoffice/comments/1j6zuyz) | [source-code](https://github.com/hedcet/ml-movies)
 
@@ -72,7 +72,7 @@ download button allow you to download metadata & combined rating (preload + redi
 
 ### changelog
 
-- 0.0.348
+- 0.0.350
   - ux optimization
 - 0.0.319/329
   - add preload n+1/all for performance

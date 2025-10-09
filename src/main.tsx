@@ -46,6 +46,8 @@ const postForm = Devvit.createForm(
 );
 
 Devvit.addMenuItem({
+  description:
+    "this will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd",
   forUserType: "moderator",
   label: "post ml-movies template",
   location: "subreddit",
