@@ -364,7 +364,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
       >
         {0 < movieIndex ? (
           <button
-            icon="left"
+            icon="left-outline"
             onPress={() => {
               const i = movieIndex - 1;
               setMovieIndex(i);
@@ -375,7 +375,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         ) : (
           <button
             disabled={!isMod()}
-            icon="customize"
+            icon="customize-outline"
             onPress={() => {
               if (!isMod()) return;
               ctx.ui.showForm(customizeForm);
@@ -385,7 +385,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         )}
         <vstack alignment="middle center" gap="small">
           <text size="xsmall" weight="bold">
-            {rating ? `${rating} rating` : "how would you rate?"}
+            {rating ? `you gave ${rating} rating` : "share your rating!"}
           </text>
           <hstack gap="small">
             {Array(5)
@@ -394,7 +394,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
                 <button
                   appearance={index < rating ? "primary" : "bordered"}
                   disabled={loading}
-                  icon={index < rating ? "star-fill" : "star"}
+                  icon={index < rating ? "star-fill" : "star-outline"}
                   onPress={() => {
                     const i = index + 1;
                     if (rating === i) setRating(0);
@@ -414,7 +414,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         </vstack>
         {movieIndex < movies.length - 1 ? (
           <button
-            icon="right"
+            icon="right-outline"
             onPress={() => {
               const i = movieIndex + 1;
               setMovieIndex(i);
@@ -425,7 +425,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         ) : (
           <button
             disabled={!isMod()}
-            icon="download"
+            icon="download-outline"
             onPress={() => {
               if (!isMod()) return;
               download(
