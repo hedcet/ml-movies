@@ -55,6 +55,7 @@ Devvit.addMenuItem({
 });
 
 const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
+  const defaultMovie = { id: "id", title: "title" };
   const map: any = { 1: "one", 2: "two", 3: "three", 4: "four", 5: "five" };
   const width = ctx.dimensions?.width || 288;
 
@@ -114,9 +115,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   const [movies, setMovies] = useState(
     async () =>
       await getMovies(
-        configs?.movies?.length
-          ? configs.movies
-          : [{ id: "id", title: "title" }],
+        configs?.movies?.length ? configs.movies : [defaultMovie],
         configs?.refs
       )
   );
@@ -281,7 +280,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
       finally: (movies, e) => {
         setAction(Actions.Done);
         if (e) showToast(e.message || "failed to rate");
-        else if (movies) setMovies(movies);
+        else if (Array.isArray(movies)) setMovies(movies);
       },
     }
   );
@@ -299,13 +298,8 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   return (
     <vstack alignment="middle center" gap="large" grow padding="medium">
       <hstack alignment="middle center">
-        {movies.map((movie: any, index: number) => (
-          <vstack
-            gap="medium"
-            width={
-              movieIndex === index ? (width <= 288 ? "256px" : "288px") : "0px"
-            }
-          >
+        {[movies?.[movieIndex] || defaultMovie].map((movie: any) => (
+          <vstack gap="medium" width={width <= 288 ? "256px" : "288px"}>
             <hstack alignment="bottom center" gap="small">
               <image
                 height="144px"
