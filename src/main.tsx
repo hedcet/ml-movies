@@ -46,8 +46,7 @@ const postForm = Devvit.createForm(
 );
 
 Devvit.addMenuItem({
-  description:
-    "this will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd",
+  // description: "this will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd",
   forUserType: "moderator",
   label: "post ml-movies template",
   location: "subreddit",
@@ -89,9 +88,8 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
       one: preload.one || 0,
       half: preload.half || 0,
     };
-    const keys = Object.keys(r);
-    for (const [i, v] of (await ctx.redis.hMGet(k, keys)).entries())
-      if (v) r[keys[i]] += +v;
+    const i = await ctx.redis.hGetAll(k);
+    for (const key of Object.keys(r)) if (i?.[key]) r[key] += +i[key];
     return r;
   }
 
@@ -125,7 +123,18 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   }
 
   function getSummary(ratings: { [k: string]: number }) {
-    const v: number[] = Object.values(ratings);
+    const v: number[] = [
+      "five",
+      "four_half",
+      "four",
+      "three_half",
+      "three",
+      "two_half",
+      "two",
+      "one_half",
+      "one",
+      "half",
+    ].map((i) => ratings[i] || 0);
     const count = v.reduce((m, i) => m + i, 0);
     return (
       <hstack alignment="bottom center" gap="small">
@@ -147,7 +156,18 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
   }
 
   function getChart(ratings: { [k: string]: number }) {
-    const v: number[] = Object.values(ratings);
+    const v: number[] = [
+      "five",
+      "four_half",
+      "four",
+      "three_half",
+      "three",
+      "two_half",
+      "two",
+      "one_half",
+      "one",
+      "half",
+    ].map((i) => ratings[i] || 0);
     const count = v.reduce((m, i) => m + i, 0);
     const chunks = chunk(v, 2).map((i) => i.reduce((m, i) => m + i, 0));
     return (
