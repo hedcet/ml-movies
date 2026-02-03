@@ -399,7 +399,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         )}
         <vstack alignment="middle center" gap="small">
           <text size="xsmall" weight="bold">
-            {rating ? `you gave ${rating} rating` : "share your rating!"}
+            {rating ? `you gave ${rating} rating` : "share your rating"}
           </text>
           <hstack gap="small">
             {Array(5)
