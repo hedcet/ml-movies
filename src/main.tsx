@@ -39,14 +39,13 @@ const postForm = Devvit.createForm(
       JSON.stringify({
         mods: [ctx.userId],
         movies: [{ id: "id", title: "title" }],
-      })
+      } as IConfigs),
     );
     ctx.ui.navigateTo(post);
-  }
+  },
 );
 
 Devvit.addMenuItem({
-  // description: "this will help you to post/config one/multiple highlight/normal template with movie rating feature like letterboxd",
   forUserType: "moderator",
   label: "post ml-movies template",
   location: "subreddit",
@@ -105,7 +104,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         if (movie.image_uri && refs[movie.image_uri])
           movie._image_uri = refs[movie.image_uri];
         return movie;
-      })
+      }),
     )) as any;
   }
 
@@ -114,8 +113,8 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
     async () =>
       await getMovies(
         configs?.movies?.length ? configs.movies : [defaultMovie],
-        configs?.refs
-      )
+        configs?.refs,
+      ),
   );
 
   function enIn(value: number, locale: string = "en-in", opts: any = {}) {
@@ -145,7 +144,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
                   count /
                   2
               : 0,
-            1
+            1,
           )}
         </text>
         <text maxWidth="100%" overflow="ellipsis" size="small">
@@ -257,7 +256,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
                   delete movie.image_uri;
                 }
               }
-            })
+            }),
           );
           await ctx.redis.set(`${ctx.postId}|configs`, JSON.stringify(configs));
           setConfigs(configs);
@@ -266,7 +265,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
           showToast(error.message || "invalid configs");
         }
       } else showToast("invalid json");
-    }
+    },
   );
 
   const [action, setAction] = useState(Actions.Done);
@@ -279,7 +278,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         const prefix = getPrefix(movie.id);
         const t = await ctx.redis.watch(
           `${prefix}|ratings`,
-          `${prefix}|rating`
+          `${prefix}|rating`,
         );
         await t.multi();
         if (movie._rating)
@@ -302,16 +301,16 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
         if (e) showToast(e.message || "failed to rate");
         else if (Array.isArray(movies)) setMovies(movies);
       },
-    }
+    },
   );
 
   function download(data: { [k: string]: any }[]) {
     ctx.ui.navigateTo(
       `https://ml-movies.hedcet.workers.dev?href=${encodeURIComponent(
         `data:text/csv;base64,${Buffer.from(csvFormat(data)).toString(
-          "base64"
-        )}`
-      )}`
+          "base64",
+        )}`,
+      )}`,
     );
   }
 
@@ -416,7 +415,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
                       setRating(i);
                       const movie = movies[movieIndex];
                       showToast(
-                        `${movie.original_title || movie.title} ~ ${i} rating`
+                        `${movie.original_title || movie.title} ~ ${i} rating`,
                       );
                     }
                     setAction(Actions.Rating);
@@ -445,14 +444,14 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
               download(
                 movies.map((i: any) => {
                   const movie = Object.fromEntries(
-                    Object.entries(i).filter(([k]) => !k.startsWith("_"))
+                    Object.entries(i).filter(([k]) => !k.startsWith("_")),
                   ) as Partial<IMovie> & Record<string, any>;
                   // _ratings handler
                   Object.entries(i._ratings || {}).forEach(([k, v]) => {
                     movie[k] = v;
                   });
                   return movie;
-                })
+                }),
               );
             }}
             size="small"

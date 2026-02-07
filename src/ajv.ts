@@ -41,5 +41,5 @@ const schema = {
   type: "object",
 };
 
-const ajv = new Ajv();
+const ajv = new Ajv({ allErrors: true });
 export const validate = ajv.compile(schema);
