@@ -324,7 +324,7 @@ const App: Devvit.CustomPostComponent = (ctx: Devvit.Context) => {
                 height="144px"
                 imageHeight={144}
                 imageWidth={96}
-                resizeMode="cover"
+                resizeMode="fill"
                 url={movie._image_uri || "placeholder.jpg"}
                 width="96px"
               />
